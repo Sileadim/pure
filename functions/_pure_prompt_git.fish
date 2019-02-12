@@ -4,12 +4,37 @@ function _pure_prompt_git \
     set --local is_git_repository (command git rev-parse --is-inside-work-tree 2>/dev/null)
 
     if test -n "$is_git_repository"
-        set --local git_prompt (_pure_prompt_git_branch)(_pure_prompt_git_dirty)
-        set --local git_arrows (_pure_prompt_git_arrows)
 
-        if test (_pure_string_width $git_arrows) -ne 0
-            set git_prompt $git_prompt $git_arrows
-        end
+
+        set hide_dirty (git config fish.hide-dirty)
+
+        if not test -n "$hide_dirty"
+		set hide_dirty "false"
+	end
+
+	
+
+			
+	if [ $hide_dirty  = "true" ]
+		
+		set git_prompt (_pure_prompt_git_branch)
+                
+	else
+		
+        	set  git_prompt (_pure_prompt_git_branch)(_pure_prompt_git_dirty)
+                set --local git_arrows (_pure_prompt_git_arrows)
+
+
+
+
+        	if test (_pure_string_width $git_arrows) -ne 0
+            		echo "too long"
+			set git_prompt $git_prompt $git_arrows
+        	end
+		
+	end
+
+
 
         echo $git_prompt
     end
