@@ -28,7 +28,6 @@ function _pure_prompt_git \
 
 
         	if test (_pure_string_width $git_arrows) -ne 0
-            		echo "too long"
 			set git_prompt $git_prompt $git_arrows
         	end
 		
